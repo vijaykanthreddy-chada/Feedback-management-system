@@ -1,0 +1,104 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+
+  <div *ngIf="message" class="alert alert-success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="card p-4 shadow mb-4">
+    <h4>Mark Attendance</h4>
+
+    <div class="row">
+
+      <div class="col-md-3 mb-3">
+        <select
+          class="form-select"
+          [(ngModel)]="selectedStudent"
+          (change)="onStudentChange()">
+
+          <option value="">Select Student</option>
+
+          <option *ngFor="let student of students" [ngValue]="student">
+            {{ student }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <select class="form-select" [(ngModel)]="enrollment_id">
+          <option [ngValue]="null">Select Enrolled Program</option>
+
+          <option
+            *ngFor="let enrollment of studentEnrollments"
+            [ngValue]="enrollment.id">
+            {{ enrollment.course }} - Program {{ enrollment.program_id }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="attendance_date"
+        />
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <select class="form-select" [(ngModel)]="present">
+          <option [ngValue]="true">Present</option>
+          <option [ngValue]="false">Absent</option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <button class="btn btn-info w-100" (click)="markAttendance()">
+          Mark
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card p-4 shadow">
+    <h4>Attendance List</h4>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Enrollment ID</th>
+          <th>Student</th>
+          <th>Program</th>
+          <th>Date</th>
+          <th>Present</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let attendance of attendanceList">
+          <td>{{ attendance.id }}</td>
+          <td>{{ attendance.enrollment_id }}</td>
+          <td>{{ attendance.student }}</td>
+          <td>{{ attendance.program_name }}</td>
+          <td>{{ attendance.attendance_date }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="attendance.present ? 'bg-success' : 'bg-danger'">
+              {{ attendance.present ? 'Present' : 'Absent' }}
+            </span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

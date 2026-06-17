@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+
+  <div *ngIf="message" class="alert alert-success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="card p-4 shadow mb-4">
+    <h4>{{ editingStudentId ? 'Update Student' : 'Add Student' }}</h4>
+
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+        <select
+          class="form-select"
+          [(ngModel)]="email"
+          [disabled]="editingStudentId !== null">
+
+          <option value="">Select Registered Participant</option>
+
+          <option
+            *ngFor="let participant of participants"
+            [ngValue]="participant.email">
+            {{ participant.name }} - {{ participant.email }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <select class="form-select" [(ngModel)]="course_id">
+          <option [ngValue]="null">Select Course</option>
+          <option *ngFor="let course of courses" [ngValue]="course.id">
+            {{ course.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3" *ngIf="!editingStudentId">
+        <button class="btn btn-primary w-100" (click)="addStudent()">
+          Add
+        </button>
+      </div>
+
+      <div class="col-md-2 mb-3" *ngIf="editingStudentId">
+        <button class="btn btn-warning w-100" (click)="updateStudent()">
+          Update
+        </button>
+      </div>
+
+    </div>
+
+    <button
+      *ngIf="editingStudentId"
+      class="btn btn-secondary btn-sm"
+      (click)="cancelEdit()">
+      Cancel Edit
+    </button>
+  </div>
+
+  <div class="card p-4 shadow">
+    <h4>Student List</h4>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Course</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let student of students">
+          <td>{{ student.id }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.email }}</td>
+          <td>
+            {{ student.course?.title || student.course_id || 'N/A' }}
+          </td>
+
+          <td>
+            <button
+              class="btn btn-sm btn-warning me-2"
+              (click)="editStudent(student)">
+              Edit
+            </button>
+
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteStudent(student.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

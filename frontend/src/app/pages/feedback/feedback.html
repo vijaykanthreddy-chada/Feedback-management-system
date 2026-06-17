@@ -1,0 +1,120 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+
+  <div *ngIf="message" class="alert alert-success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="card p-4 shadow mb-4">
+    <h4>Submit Feedback</h4>
+
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">My Enrollment</label>
+        <select
+          class="form-select"
+          [(ngModel)]="enrollment_id"
+          (change)="onEnrollmentChange()">
+
+          <option [ngValue]="null">Select Enrollment</option>
+
+          <option
+            *ngFor="let enrollment of myEnrollments"
+            [ngValue]="enrollment.id">
+            {{ enrollment.course }} - Enrollment ID {{ enrollment.id }}
+          </option>
+
+        </select>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Faculty</label>
+        <select
+          class="form-select"
+          [(ngModel)]="faculty_id">
+
+          <option [ngValue]="null">Select Faculty</option>
+
+          <option
+            *ngFor="let faculty of selectedEnrollment?.faculties"
+            [ngValue]="faculty.id">
+            {{ faculty.name }}
+          </option>
+
+        </select>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Faculty Rating</label>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          class="form-control"
+          placeholder="1-5"
+          [(ngModel)]="faculty_rating"
+        />
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Curriculum Rating</label>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          class="form-control"
+          placeholder="1-5"
+          [(ngModel)]="curriculum_rating"
+        />
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Program Structure Rating</label>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          class="form-control"
+          placeholder="1-5"
+          [(ngModel)]="program_structure_rating"
+        />
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Overall Rating</label>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          class="form-control"
+          placeholder="1-5"
+          [(ngModel)]="overall_rating"
+        />
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <label class="form-label">Comments</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="Write your comments"
+          [(ngModel)]="comments">
+        </textarea>
+      </div>
+
+      <div class="col-md-12">
+        <button class="btn btn-primary w-100" (click)="submitFeedback()">
+          Submit Feedback
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

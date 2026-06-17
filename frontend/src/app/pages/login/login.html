@@ -1,0 +1,153 @@
+<div class="login-wrapper">
+  <div class="card shadow">
+
+    <div class="card-header">
+      <i class="bi bi-shield-lock"></i>
+      <h2>Feedback Management System</h2>
+      <p>Sign in to your account</p>
+    </div>
+
+    <div class="card-body">
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <i class="bi bi-exclamation-circle me-1"></i>
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        <i class="bi bi-check-circle me-1"></i>
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="!showRegister">
+
+        <div class="mb-3">
+          <label class="form-label">Login As</label>
+          <div class="role-selector">
+            <div class="role-option" [class.active]="role === 'ADMIN'" (click)="role = 'ADMIN'">
+              <i class="bi bi-shield"></i>
+              Admin
+            </div>
+            <div class="role-option" [class.active]="role === 'COORDINATOR'" (click)="role = 'COORDINATOR'">
+              <i class="bi bi-people"></i>
+              Coordinator
+            </div>
+            <div class="role-option" [class.active]="role === 'PARTICIPANT'" (click)="role = 'PARTICIPANT'">
+              <i class="bi bi-person"></i>
+              Participant
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <div class="input-group-icon">
+            <i class="bi bi-envelope"></i>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              [(ngModel)]="email"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <div class="input-group-icon">
+            <i class="bi bi-lock"></i>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+            />
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-100" (click)="loginUser()">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Login
+        </button>
+
+        <p class="toggle-text text-center">
+          New user?
+          <button class="btn btn-link" (click)="showRegister = true">
+            Create an account
+          </button>
+        </p>
+      </div>
+
+      <div *ngIf="showRegister">
+
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <div class="input-group-icon">
+            <i class="bi bi-person"></i>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter your name"
+              [(ngModel)]="registerName"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <div class="input-group-icon">
+            <i class="bi bi-envelope"></i>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              [(ngModel)]="registerEmail"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <div class="input-group-icon">
+            <i class="bi bi-lock"></i>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Create a password"
+              [(ngModel)]="registerPassword"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+          <div class="role-selector">
+            <div class="role-option" [class.active]="registerRole === 'ADMIN'" (click)="registerRole = 'ADMIN'">
+              <i class="bi bi-shield"></i>
+              Admin
+            </div>
+            <div class="role-option" [class.active]="registerRole === 'COORDINATOR'" (click)="registerRole = 'COORDINATOR'">
+              <i class="bi bi-people"></i>
+              Coordinator
+            </div>
+            <div class="role-option" [class.active]="registerRole === 'PARTICIPANT'" (click)="registerRole = 'PARTICIPANT'">
+              <i class="bi bi-person"></i>
+              Participant
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-success w-100" (click)="registerUser()">
+          <i class="bi bi-person-plus me-1"></i> Register
+        </button>
+
+        <p class="toggle-text text-center">
+          Already registered?
+          <button class="btn btn-link" (click)="showRegister = false">
+            Sign in here
+          </button>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

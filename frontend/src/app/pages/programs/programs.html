@@ -1,0 +1,153 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+
+  <div *ngIf="message" class="alert alert-success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="card p-4 shadow mb-4">
+    <h4>{{ editingProgramId ? 'Update Training Program' : 'Create Training Program' }}</h4>
+
+    <div class="row">
+
+      <div class="col-md-2 mb-3">
+        <select class="form-select" [(ngModel)]="course_id">
+          <option [ngValue]="null">Select Course</option>
+          <option *ngFor="let course of courses" [ngValue]="course.id">
+            {{ course.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <select class="form-select" [(ngModel)]="coordinator_id">
+          <option [ngValue]="null">Select Coordinator</option>
+          <option *ngFor="let coordinator of coordinators" [ngValue]="coordinator.id">
+            {{ coordinator.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <input type="date" class="form-control" [(ngModel)]="start_date" />
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <input type="date" class="form-control" [(ngModel)]="end_date" />
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <input class="form-control" placeholder="Location" [(ngModel)]="location" />
+      </div>
+
+      <div class="col-md-1 mb-3">
+        <input type="number" class="form-control" placeholder="Capacity" [(ngModel)]="capacity" max="70" />
+      </div>
+
+      <div class="col-md-1 mb-3" *ngIf="!editingProgramId">
+        <button class="btn btn-warning w-100" (click)="addProgram()">
+          Add
+        </button>
+      </div>
+
+      <div class="col-md-1 mb-3" *ngIf="editingProgramId">
+        <button class="btn btn-warning w-100" (click)="updateProgram()">
+          Update
+        </button>
+      </div>
+
+    </div>
+
+    <button
+      *ngIf="editingProgramId"
+      class="btn btn-secondary btn-sm"
+      (click)="cancelEdit()">
+      Cancel Edit
+    </button>
+  </div>
+
+  <div class="card p-4 shadow mb-4">
+    <h4>Assign Faculty to Program</h4>
+
+    <div class="row">
+
+      <div class="col-md-5 mb-3">
+        <select class="form-select" [(ngModel)]="program_id">
+          <option [ngValue]="null">Select Program</option>
+          <option *ngFor="let program of programs" [ngValue]="program.id">
+            Program {{ program.id }} - {{ program.course }} - {{ program.location }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-5 mb-3">
+        <select class="form-select" [(ngModel)]="faculty_id">
+          <option [ngValue]="null">Select Faculty</option>
+          <option *ngFor="let faculty of faculties" [ngValue]="faculty.id">
+            {{ faculty.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <button class="btn btn-success w-100" (click)="assignFaculty()">
+          Assign
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card p-4 shadow">
+    <h4>Program List</h4>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Course</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let program of programs">
+          <td>{{ program.id }}</td>
+          <td>{{ program.course }}</td>
+          <td>{{ program.location }}</td>
+          <td>{{ program.capacity }}</td>
+          <td>{{ getProgramStatus(program) }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-warning me-2"
+              (click)="editProgram(program)">
+              Edit
+            </button>
+
+            <button
+              class="btn btn-sm btn-secondary me-2"
+              (click)="cancelProgram(program.id)"
+              [disabled]="program.status === 'CANCELLED'">
+              Cancel
+            </button>
+
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteProgram(program.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

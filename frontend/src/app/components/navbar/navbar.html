@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+
+  <a
+    class="navbar-brand"
+    routerLink="/dashboard"
+    routerLinkActive="active-link">
+    Feedback Management System
+  </a>
+
+  <div class="navbar-nav">
+
+    <a
+      class="nav-link"
+      routerLink="/dashboard"
+      routerLinkActive="active-link">
+      Dashboard
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/courses"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN'">
+      Courses
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/faculty"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN'">
+      Faculty
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/students"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN'">
+      Students
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/programs"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      Programs
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/enrollments"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      Enrollments
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/attendance"
+      routerLinkActive="active-link"
+      *ngIf="role === 'COORDINATOR'">
+      Attendance
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/feedback"
+      routerLinkActive="active-link"
+      *ngIf="role === 'PARTICIPANT'">
+      Feedback
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/reports"
+      routerLinkActive="active-link"
+      *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      Reports
+    </a>
+
+  </div>
+
+  <button
+    class="btn btn-danger btn-sm ms-auto"
+    (click)="logout()">
+    Logout
+  </button>
+
+</nav>

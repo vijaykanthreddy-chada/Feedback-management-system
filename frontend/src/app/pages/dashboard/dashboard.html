@@ -1,0 +1,123 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+
+  <h2>Welcome, {{ user?.name }}</h2>
+
+  <p>
+    Role:
+    <span class="badge bg-primary">
+      {{ role }}
+    </span>
+  </p>
+
+  <!-- Dashboard Summary Cards -->
+
+  <div *ngIf="summary && role !== 'PARTICIPANT'" class="row mt-4">
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Courses</b>
+        <h3>{{ summary.total_courses }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Faculty</b>
+        <h3>{{ summary.total_faculties }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Students</b>
+        <h3>{{ summary.total_students }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Programs</b>
+        <h3>{{ summary.total_programs }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Enrollments</b>
+        <h3>{{ summary.total_enrollments }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-2 mb-3">
+      <div class="card p-3 text-center shadow-sm">
+        <b>Feedbacks</b>
+        <h3>{{ summary.total_feedbacks }}</h3>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick Actions -->
+
+  <h4 class="mt-4 mb-3">Quick Actions</h4>
+
+  <div class="row">
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN'">
+      <a routerLink="/courses" class="btn btn-primary w-100">
+        Courses
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN'">
+      <a routerLink="/faculty" class="btn btn-success w-100">
+        Faculty
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN'">
+      <a routerLink="/students" class="btn btn-info w-100">
+        Students
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      <a routerLink="/programs" class="btn btn-warning w-100">
+        Programs
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      <a routerLink="/enrollments" class="btn btn-secondary w-100">
+        Enrollments
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'COORDINATOR'">
+      <a routerLink="/attendance" class="btn btn-info w-100">
+        Attendance
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'PARTICIPANT'">
+      <a routerLink="/feedback" class="btn btn-dark w-100">
+        Feedback
+      </a>
+    </div>
+
+    <div class="col-md-3 mb-3" *ngIf="role === 'ADMIN' || role === 'COORDINATOR'">
+      <a routerLink="/reports" class="btn btn-danger w-100">
+        Reports
+      </a>
+    </div>
+
+  </div>
+
+</div>
+<footer class="bg-dark text-white text-center py-3 mt-5">
+  <p class="mb-0">
+    © 2026 Feedback Management System | Training & Feedback Portal
+  </p>
+</footer>

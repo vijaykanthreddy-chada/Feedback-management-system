@@ -1,0 +1,19 @@
+.navbar {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.active-link {
+  color: #ffffff !important;
+  font-weight: bold;
+  border-bottom: 2px solid #ffffff;
+}
