@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt
 
+from app.middleware.role_required import role_required
 from app.services.feedback_service import (
     create_feedback,
     get_all_feedback,
@@ -12,6 +13,7 @@ feedback_bp = Blueprint("feedback_bp", __name__)
 
 @feedback_bp.route("/", methods=["POST"])
 @jwt_required()
+@role_required("PARTICIPANT")
 def add_feedback():
     data = request.get_json()
     claims = get_jwt()

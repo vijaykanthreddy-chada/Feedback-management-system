@@ -27,10 +27,10 @@ class Feedback(db.Model):
         nullable=False
     )
 
-    rating = db.Column(
-        db.Integer,
-        nullable=False
-    )
+    faculty_rating = db.Column(db.Integer, nullable=False)
+    curriculum_rating = db.Column(db.Integer, nullable=False)
+    program_structure_rating = db.Column(db.Integer, nullable=False)
+    overall_rating = db.Column(db.Integer, nullable=False)
 
     comments = db.Column(db.Text)
 

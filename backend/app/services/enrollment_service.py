@@ -72,11 +72,17 @@ def get_all_enrollments():
 
 
 def get_my_enrollments():
-    user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))
+    identity = get_jwt_identity()
+
+    user = None
+
+    try:
+        user = User.query.get(int(identity))
+    except:
+        user = User.query.filter_by(email=identity).first()
 
     if not user:
-        return {"error": "User not found"}, 404
+        return {"error": "User not found. Please login again."}, 404
 
     student = Student.query.filter_by(email=user.email).first()
 

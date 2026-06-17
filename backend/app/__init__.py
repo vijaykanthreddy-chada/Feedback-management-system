@@ -13,7 +13,14 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": "*"}},
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    )
 
     load_dotenv()
 

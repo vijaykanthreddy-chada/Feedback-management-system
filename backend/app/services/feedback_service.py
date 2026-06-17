@@ -10,19 +10,39 @@ from app.models.user import User
 def create_feedback(data):
     enrollment_id = data.get("enrollment_id")
     faculty_id = data.get("faculty_id")
-    rating = data.get("rating")
+
+    faculty_rating = data.get("faculty_rating")
+    curriculum_rating = data.get("curriculum_rating")
+    program_structure_rating = data.get("program_structure_rating")
+    overall_rating = data.get("overall_rating")
+
     comments = data.get("comments")
 
-    if not enrollment_id or not faculty_id or rating is None:
+    if (
+        not enrollment_id
+        or not faculty_id
+        or faculty_rating is None
+        or curriculum_rating is None
+        or program_structure_rating is None
+        or overall_rating is None
+    ):
         return {
-            "error": "Enrollment ID, faculty ID and rating are required"
+            "error": "Enrollment, faculty and all ratings are required"
         }, 400
 
-    if not isinstance(rating, int):
-        return {"error": "Rating must be a number"}, 400
+    ratings = [
+        faculty_rating,
+        curriculum_rating,
+        program_structure_rating,
+        overall_rating
+    ]
 
-    if rating < 1 or rating > 5:
-        return {"error": "Rating must be between 1 and 5"}, 400
+    for rating in ratings:
+        if not isinstance(rating, int):
+            return {"error": "Ratings must be numbers"}, 400
+
+        if rating < 1 or rating > 5:
+            return {"error": "Ratings must be between 1 and 5"}, 400
 
     enrollment = Enrollment.query.get(enrollment_id)
 
@@ -30,7 +50,7 @@ def create_feedback(data):
         return {"error": "Enrollment not found"}, 404
 
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = User.query.get(int(user_id))
 
     if user and user.role.value == "PARTICIPANT":
         if enrollment.student.email != user.email:
@@ -54,14 +74,25 @@ def create_feedback(data):
     ).first()
 
     if existing_feedback:
+        existing_feedback.faculty_rating = faculty_rating
+        existing_feedback.curriculum_rating = curriculum_rating
+        existing_feedback.program_structure_rating = program_structure_rating
+        existing_feedback.overall_rating = overall_rating
+        existing_feedback.comments = comments
+        db.session.commit()
+
         return {
-            "error": "Feedback already submitted for this faculty"
-        }, 409
+            "message": "Feedback updated successfully",
+            "feedback_id": existing_feedback.id
+        }, 200
 
     feedback = Feedback(
         enrollment_id=enrollment_id,
         faculty_id=faculty_id,
-        rating=rating,
+        faculty_rating=faculty_rating,
+        curriculum_rating=curriculum_rating,
+        program_structure_rating=program_structure_rating,
+        overall_rating=overall_rating,
         comments=comments
     )
 
@@ -84,7 +115,10 @@ def get_all_feedback():
             "id": feedback.id,
             "enrollment_id": feedback.enrollment_id,
             "faculty_id": feedback.faculty_id,
-            "rating": feedback.rating,
+            "faculty_rating": feedback.faculty_rating,
+            "curriculum_rating": feedback.curriculum_rating,
+            "program_structure_rating": feedback.program_structure_rating,
+            "overall_rating": feedback.overall_rating,
             "comments": feedback.comments
         })
 
@@ -103,7 +137,7 @@ def get_faculty_average_rating(faculty_id):
         }
 
     total = sum(
-        feedback.rating
+        feedback.overall_rating
         for feedback in feedbacks
     )
 

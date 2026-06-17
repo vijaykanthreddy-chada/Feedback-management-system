@@ -2,6 +2,9 @@ from app.config.database import db
 from app.models.student import Student
 from app.models.course import Course
 from app.models.user import User, UserRole
+from app.models.enrollment import Enrollment
+from app.models.attendance import Attendance
+from app.models.feedback import Feedback
 
 
 def create_student(data):
@@ -92,6 +95,14 @@ def delete_student(student_id):
 
     if not student:
         return {"error": "Student not found"}, 404
+
+    enrollments = Enrollment.query.filter_by(student_id=student_id).all()
+
+    for enrollment in enrollments:
+        Attendance.query.filter_by(enrollment_id=enrollment.id).delete()
+        Feedback.query.filter_by(enrollment_id=enrollment.id).delete()
+
+    Enrollment.query.filter_by(student_id=student_id).delete()
 
     db.session.delete(student)
     db.session.commit()

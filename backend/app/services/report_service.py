@@ -41,7 +41,7 @@ def program_feedback_summary(program_id):
     average_rating = 0
     if total_feedbacks > 0:
         average_rating = round(
-            sum(f.rating for f in feedbacks) / total_feedbacks,
+            sum(f.overall_rating for f in feedbacks) / total_feedbacks,
             2
         )
 
@@ -181,7 +181,7 @@ def faculty_performance_report(faculty_id):
     average_rating = 0
     if total_feedbacks > 0:
         average_rating = round(
-            sum(f.rating for f in feedbacks) / total_feedbacks,
+            sum(f.overall_rating for f in feedbacks) / total_feedbacks,
             2
         )
 
